@@ -1,1 +1,1 @@
-# minproducer.github.io
+git clone https://github.com/user/repository.git
