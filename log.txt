@@ -1,0 +1,36 @@
+[T2 Thg11 5 00:00:18 2018] Debug: web version :  "3.0.4.4" current version  3.0.4.4
+
+
+
+[T2 Thg11 5 00:00:19 2018] Debug: default Language: "vi"
+
+
+
+[T2 Thg11 5 00:00:20 2018] Debug: FontLoader Loaded
+
+
+
+[T2 Thg11 5 00:00:24 2018] Debug: async models initialize
+
+
+
+[T2 Thg11 5 00:00:25 2018] Warning: libpng warning: iCCP: known incorrect sRGB profile
+
+
+
+[T2 Thg11 5 00:00:27 2018] Debug: [+] InjectionCore : Data Fetching..
+
+
+
+[T2 Thg11 5 00:00:28 2018] Debug: [+] InjectionCore : Data Fetching Success..
+
+
+
+[T2 Thg11 5 00:00:28 2018] Debug: [+] InjectionCore : Waiting for action..
+
+
+
+[T2 Thg11 5 00:00:29 2018] Debug: [+] InjectionCore : External Started
+
+
+
