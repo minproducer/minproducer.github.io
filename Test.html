@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="author" content="Jake Albaugh">
+  <title>MinProducer</title>
+  <!-- Modified by @MonokaiJs -->
+</head>
+<body>
+  <!-- Simple audio playback -->
+  <video src="https://r1---sn-n4v7sney.googlevideo.com/videoplayback?source=youtube&lsig=AHylml4wRAIgdanQ7FWYkfwX6iANyLKqQGFG--4VYwPMNjHCBNpPDqcCIG_s2nlsBcsCw3eajf2vSLwrUjBJx2P1HlrgSursly3I&lsparams=initcwndbps%2Cmm%2Cmn%2Cms%2Cmv%2Cpl&lmt=1554976711398132&c=WEB&expire=1561679092&ratebypass=yes&initcwndbps=257500&ei=lAAVXenbDpnmkgayzL6gCQ&dur=258.136&fvip=1&ipbits=0&sparams=expire%2Cei%2Cip%2Cclen%2Cdur%2Cgir%2Cid%2Cipbits%2Citag%2Clmt%2Cmime%2Cpcm2%2Cratebypass%2Crequiressl%2Csource&mv=m&mt=1561657309&ms=au%2Crdu&mime=video%2Fmp4&gir=yes&pcm2=yes&requiressl=yes&ip=23.80.156.8&txp=5531432&itag=18&clen=11726745&mn=sn-n4v7sney%2Csn-n4v7knlz&mm=31%2C29&pl=20&id=o-AH2NPltrWIkppfukN3IDQTseJOz1NXir-1m97D2VDyba&sig=ALgxI2wwRgIhAN6G2jAgtMiDS7L9PKH7GAfgxWvAGGQUZzACpZFefgiMAiEA2gEe9dME4qpFAsWBN7V8tmCXRw7ZHnHtuquLX6vBPo0%3D&video_id=l5yzjI28Aas&title=DG812+-+It+Ended+In+Tears+-+Diversity+Release" controls>
+    Your browser does not support the <code>video</code> element.
+  </video>
+  <script>
+    const medias = document.querySelectorAll('audio,video');
+    medias.forEach(media => {media.onplay = start});
+    let l, x, a, d;
+    function start(e) {
+      l = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
+      x = new AudioContext();
+      a = x.createAnalyser();
+      a.fftSize = 32;
+      d = new Uint8Array(16);
+      navigator.mediaDevices.getUserMedia({
+        audio: true
+      }).then(s => {
+        x.createMediaStreamSource(s).connect(a);
+        z();
+      });
+    }
+    function z() {
+      setTimeout(z, 40);
+      a.getByteFrequencyData(d);
+      let s = [];
+      d.forEach(v => s.push(l[Math.floor((v / 255) * 8)]));
+      location.hash = document.title = s.join('');
+    }
+  </script>
+</body>
+</html>
