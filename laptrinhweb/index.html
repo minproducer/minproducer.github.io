@@ -1,56 +1,292 @@
 <!DOCTYPE html>
-<html >
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JavaScript Tic Tac Toe </title>
-  
- 
-  
-  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-<link rel='stylesheet prefetch' href='https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'>
- 
-      <link rel="stylesheet" href="style.css">
- 
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Tic Tac Toe</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #c084fc;
+      --background: #0f172a;
+      --cell-bg: #1e293b;
+      --cell-hover: #334155;
+      --text: #f8fafc;
+      --x-color: #f87171;
+      --o-color: #38bdf8;
+      --border-radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background);
+      background-image: linear-gradient(135deg, var(--background) 0%, #020617 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+    }
+
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      max-width: 600px;
+    }
+
+    .game-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    .status-bar {
+      background-color: var(--cell-bg);
+      border-radius: var(--border-radius);
+      padding: 12px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+      font-size: 1.2rem;
+      text-align: center;
+      min-width: 280px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #main {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .container-fluid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .cell {
+      background-color: var(--cell-bg);
+      width: 120px;
+      height: 120px;
+      border-radius: var(--border-radius);
+      font-size: 60px;
+      color: white;
+      text-align: center;
+      line-height: 120px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cell:hover {
+      background-color: var(--cell-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* X and O styling */
+    .cell.x {
+      color: var(--x-color);
+      text-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
+    }
+
+    .cell.o {
+      color: var(--o-color);
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    /* Dialog styling */
+    .ui-dialog {
+      background-color: var(--cell-bg) !important;
+      border-radius: var(--border-radius) !important;
+      border: 2px solid rgba(255, 255, 255, 0.1) !important;
+      padding: 0 !important;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .ui-dialog-titlebar {
+      background: linear-gradient(90deg, var(--primary), var(--secondary)) !important;
+      color: white !important;
+      border-radius: calc(var(--border-radius) - 2px) calc(var(--border-radius) - 2px) 0 0 !important;
+      border: none !important;
+      padding: 15px 20px !important;
+      font-weight: bold !important;
+    }
+
+    .ui-dialog-content {
+      color: var(--text) !important;
+      padding: 20px !important;
+      font-size: 1.2rem !important;
+      text-align: center !important;
+    }
+
+    .ui-button {
+      background: var(--primary) !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 10px 20px !important;
+      margin: 5px !important;
+      font-weight: bold !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .ui-button:hover {
+      background: var(--secondary) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    /* Choose X or O buttons */
+    .choice-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .choice-btn {
+      background: var(--cell-bg);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      font-size: 40px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .choice-btn.x {
+      color: var(--x-color);
+    }
+
+    .choice-btn.o {
+      color: var(--o-color);
+    }
+
+    .choice-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Responsive design */
+    @media (max-width: 500px) {
+      .cell {
+        width: 90px;
+        height: 90px;
+        font-size: 45px;
+        line-height: 90px;
+      }
+      
+      .game-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .cell {
+        width: 70px;
+        height: 70px;
+        font-size: 35px;
+        line-height: 70px;
+      }
+    }
+  </style>
 </head>
- 
 <body>
-  <div id="main">
-<div class="container-fluid">
-<div class="row">
-  <div class="col-xs-4 cell" id="c11">
+  <div class="game-container">
+    <h1 class="game-title">Tic Tac Toe</h1>
+    <div class="status-bar" id="status">Choose X or O to start</div>
+    
+    <div id="main">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="cell" id="c11"></div>
+          <div class="cell" id="c12"></div>
+          <div class="cell" id="c13"></div>
+        </div>
+        <div class="row">
+          <div class="cell" id="c21"></div>
+          <div class="cell" id="c22"></div>
+          <div class="cell" id="c23"></div>
+        </div>
+        <div class="row">
+          <div class="cell" id="c31"></div>
+          <div class="cell" id="c32"></div>
+          <div class="cell" id="c33"></div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-xs-4 cell" id="c12">
+
+  <div id="dialog-confirm" title="Choose Your Symbol">
+    <p>Which symbol would you like to play as?</p>
+    <div class="choice-buttons">
+      <button class="choice-btn x" id="choose-x">X</button>
+      <button class="choice-btn o" id="choose-o">O</button>
+    </div>
   </div>
-  <div class="col-xs-4 cell" id="c13">
-  </div>
-</div>
-  <div class="row">
-<div class="col-xs-4 cell" id="c21">
-</div>
-<div class="col-xs-4 cell" id="c22">
-</div>
-<div class="col-xs-4 cell" id="c23">
-</div>
-  </div>
-  <div class="row">
-<div class="col-xs-4 cell" id="c31">
-</div>
-<div class="col-xs-4 cell" id="c32">
-</div>
-<div class="col-xs-4 cell" id="c33">
-</div>
-  </div>
-</div>
-</div>
- 
-<div id="dialog-confirm" title="Tic Tac Toe | JavaScript">
-  <p>Choose X or O</p>
-</div>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='https://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
- 
-    <script src="function.js"></script>
- 
+  <script src='https://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
+
+  <script>
+    // Basic functionality to show dialog and handle symbol selection
+    $(function() {
+      $("#dialog-confirm").dialog({
+        resizable: false,
+        modal: true,
+        autoOpen: true,
+        width: 320,
+        closeOnEscape: false,
+        open: function(event, ui) {
+          $(".ui-dialog-titlebar-close").hide();
+        }
+      });
+
+      // Handle X or O choice click
+      $("#choose-x, #choose-o").on("click", function() {
+        var playerSymbol = $(this).text();
+        $("#status").text("You are playing as " + playerSymbol);
+        $("#dialog-confirm").dialog("close");
+        // The rest of your game logic would go here
+      });
+
+      // For demo purposes - handle cell clicks
+      $(".cell").on("click", function() {
+        if (!$(this).text()) {
+          $(this).text("X").addClass("x");
+          // In a real game, you'd implement the computer's move here
+        }
+      });
+    });
+  </script>
 </body>
 </html>
