@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Tic Tac Toe</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Cờ Ca-rô | Tic Tac Toe</title>
   <style>
     :root {
       --primary: #6366f1;
@@ -166,6 +165,7 @@
       display: flex;
       gap: 15px;
       margin-top: 15px;
+      justify-content: center;
     }
 
     .choice-btn {
@@ -222,8 +222,8 @@
 </head>
 <body>
   <div class="game-container">
-    <h1 class="game-title">Tic Tac Toe</h1>
-    <div class="status-bar" id="status">Choose X or O to start</div>
+    <h1 class="game-title">Cờ Ca-rô</h1>
+    <div class="status-bar" id="status">Chọn X hoặc O để bắt đầu</div>
     
     <div id="main">
       <div class="container-fluid">
@@ -246,8 +246,8 @@
     </div>
   </div>
 
-  <div id="dialog-confirm" title="Choose Your Symbol">
-    <p>Which symbol would you like to play as?</p>
+  <div id="dialog-confirm" title="Chọn Ký Hiệu">
+    <p>Bạn muốn chơi với ký hiệu nào?</p>
     <div class="choice-buttons">
       <button class="choice-btn x" id="choose-x">X</button>
       <button class="choice-btn o" id="choose-o">O</button>
@@ -258,8 +258,8 @@
   <script src='https://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
 
   <script>
-    $(function() {
-      // Game variables
+    $(document).ready(function() {
+      // Biến trò chơi
       var player, computer;
       var gameActive = false;
       var board = [
@@ -268,14 +268,14 @@
         ['', '', '']
       ];
       
-      // Cell positions mapping
+      // Ánh xạ vị trí
       var cellToPosition = {
         'c11': [0, 0], 'c12': [0, 1], 'c13': [0, 2],
         'c21': [1, 0], 'c22': [1, 1], 'c23': [1, 2],
         'c31': [2, 0], 'c32': [2, 1], 'c33': [2, 2]
       };
       
-      // Initialize the dialog
+      // Khởi tạo hộp thoại
       $("#dialog-confirm").dialog({
         resizable: false,
         modal: true,
@@ -287,21 +287,27 @@
         }
       });
       
-      // Handle player symbol choice
-      $("#choose-x, #choose-o").on("click", function() {
-        player = $(this).text();
-        computer = player === 'X' ? 'O' : 'X';
-        $("#status").text("Your turn! You are " + player);
+      // Xử lý khi người chơi chọn ký hiệu
+      $("#choose-x").on("click", function() {
+        player = 'X';
+        computer = 'O';
+        $("#status").text("Lượt của bạn! Bạn chơi " + player);
+        $("#dialog-confirm").dialog("close");
+        gameActive = true;
+      });
+      
+      $("#choose-o").on("click", function() {
+        player = 'O';
+        computer = 'X';
+        $("#status").text("Lượt của bạn! Bạn chơi " + player);
         $("#dialog-confirm").dialog("close");
         gameActive = true;
         
-        // If computer goes first (player chose O)
-        if (player === 'O') {
-          computerMove();
-        }
+        // Máy tính đi trước nếu người chơi chọn O
+        setTimeout(computerMove, 500);
       });
       
-      // Cell click handler
+      // Xử lý khi người chơi nhấp vào ô
       $(".cell").on("click", function() {
         if (!gameActive) return;
         
@@ -310,30 +316,33 @@
         var row = position[0];
         var col = position[1];
         
-        // Check if cell is empty
+        // Kiểm tra nếu ô trống
         if (board[row][col] === '') {
-          // Make player move
+          // Người chơi đi
           makeMove($(this), row, col, player);
           
-          // Check if game ended
+          // Kiểm tra kết thúc
           if (!checkGameEnd()) {
-            // Computer's turn
+            // Đến lượt máy tính
             setTimeout(computerMove, 500);
           }
         }
       });
       
-      // Make a move (update UI and board array)
+      // Thực hiện nước đi
       function makeMove($cell, row, col, symbol) {
-        $cell.text(symbol).addClass(symbol.toLowerCase());
+        $cell.text(symbol);
+        $cell.addClass(symbol.toLowerCase());
         board[row][col] = symbol;
       }
       
-      // Computer makes a move
+      // Máy tính thực hiện nước đi
       function computerMove() {
-        $("#status").text("Computer is thinking...");
+        if (!gameActive) return;
         
-        // Find empty cells
+        $("#status").text("Máy tính đang suy nghĩ...");
+        
+        // Tìm các ô trống
         var emptyCells = [];
         for (var i = 0; i < 3; i++) {
           for (var j = 0; j < 3; j++) {
@@ -343,16 +352,15 @@
           }
         }
         
-        // Check if any moves left
+        // Kiểm tra nếu còn nước đi
         if (emptyCells.length > 0) {
-          // Simple AI: Random move for now
-          // Could be enhanced with minimax algorithm for unbeatable AI
+          // AI đơn giản: chọn ngẫu nhiên
           var randomIndex = Math.floor(Math.random() * emptyCells.length);
           var move = emptyCells[randomIndex];
           var row = move[0];
           var col = move[1];
           
-          // Convert [row, col] back to cell ID
+          // Chuyển [row, col] thành ID ô
           var cellId;
           for (var id in cellToPosition) {
             if (cellToPosition[id][0] === row && cellToPosition[id][1] === col) {
@@ -364,24 +372,24 @@
           var $cell = $("#" + cellId);
           makeMove($cell, row, col, computer);
           
-          // Check if game ended after computer move
+          // Kiểm tra kết thúc sau nước đi của máy tính
           if (!checkGameEnd()) {
-            $("#status").text("Your turn! You are " + player);
+            $("#status").text("Lượt của bạn! Bạn chơi " + player);
           }
         }
       }
       
-      // Check for win, draw, or continue
+      // Kiểm tra thắng, hòa, hoặc tiếp tục
       function checkGameEnd() {
-        // Check rows, columns, and diagonals for win
+        // Kiểm tra thắng
         if (checkWin()) {
           return true;
         }
         
-        // Check for draw
+        // Kiểm tra hòa
         if (checkDraw()) {
           gameActive = false;
-          $("#status").text("Game ended in a draw!");
+          $("#status").text("Trò chơi kết thúc với tỷ số hòa!");
           setTimeout(showRestartDialog, 1000);
           return true;
         }
@@ -389,24 +397,24 @@
         return false;
       }
       
-      // Check for win
+      // Kiểm tra thắng
       function checkWin() {
-        // Define winning combinations
+        // Định nghĩa các tổ hợp thắng
         var winCombos = [
-          // Rows
+          // Hàng ngang
           [[0,0], [0,1], [0,2]],
           [[1,0], [1,1], [1,2]],
           [[2,0], [2,1], [2,2]],
-          // Columns
+          // Hàng dọc
           [[0,0], [1,0], [2,0]],
           [[0,1], [1,1], [2,1]],
           [[0,2], [1,2], [2,2]],
-          // Diagonals
+          // Đường chéo
           [[0,0], [1,1], [2,2]],
           [[0,2], [1,1], [2,0]]
         ];
         
-        // Check each winning combination
+        // Kiểm tra từng tổ hợp
         for (var i = 0; i < winCombos.length; i++) {
           var combo = winCombos[i];
           var a = combo[0];
@@ -417,17 +425,17 @@
               board[a[0]][a[1]] === board[b[0]][b[1]] && 
               board[a[0]][a[1]] === board[c[0]][c[1]]) {
             
-            // Highlight winning cells
+            // Đánh dấu các ô thắng
             highlightWin(combo);
             
-            // Determine winner
+            // Xác định người thắng
             var winner = board[a[0]][a[1]];
             gameActive = false;
             
             if (winner === player) {
-              $("#status").text("You won! 🎉");
+              $("#status").text("Bạn đã thắng! 🎉");
             } else {
-              $("#status").text("Computer won!");
+              $("#status").text("Máy tính đã thắng!");
             }
             
             setTimeout(showRestartDialog, 1000);
@@ -438,9 +446,10 @@
         return false;
       }
       
-      // Highlight winning combination
+      // Đánh dấu các ô thắng
       function highlightWin(combo) {
-        combo.forEach(function(pos) {
+        for (var i = 0; i < combo.length; i++) {
+          var pos = combo[i];
           var cellId;
           for (var id in cellToPosition) {
             if (cellToPosition[id][0] === pos[0] && cellToPosition[id][1] === pos[1]) {
@@ -452,10 +461,10 @@
             'background-color': 'rgba(129, 140, 248, 0.4)',
             'box-shadow': '0 0 15px rgba(129, 140, 248, 0.8)'
           });
-        });
+        }
       }
       
-      // Check for draw
+      // Kiểm tra hòa
       function checkDraw() {
         for (var i = 0; i < 3; i++) {
           for (var j = 0; j < 3; j++) {
@@ -467,53 +476,60 @@
         return true;
       }
       
-      // Show restart dialog
+      // Hiển thị hộp thoại khởi động lại
       function showRestartDialog() {
-        // Create dialog dynamically
+        // Tạo hộp thoại khởi động lại
         if ($("#restart-dialog").length === 0) {
-          $("body").append('<div id="restart-dialog" title="Game Over"><p>Do you want to play again?</p></div>');
+          $("body").append('<div id="restart-dialog" title="Trò Chơi Kết Thúc"><p>Bạn có muốn chơi lại không?</p></div>');
           
           $("#restart-dialog").dialog({
             resizable: false,
             modal: true,
             autoOpen: false,
-            buttons: {
-              "Play Again": function() {
-                restartGame();
-                $(this).dialog("close");
+            width: 320,
+            buttons: [
+              {
+                text: "Chơi Lại",
+                click: function() {
+                  restartGame();
+                  $(this).dialog("close");
+                }
               },
-              "Quit": function() {
-                $(this).dialog("close");
+              {
+                text: "Thoát",
+                click: function() {
+                  $(this).dialog("close");
+                }
               }
-            }
+            ]
           });
         }
         
         $("#restart-dialog").dialog("open");
       }
       
-      // Restart the game
+      // Khởi động lại trò chơi
       function restartGame() {
-        // Clear board array
+        // Xóa mảng bàn cờ
         board = [
           ['', '', ''],
           ['', '', ''],
           ['', '', '']
         ];
         
-        // Clear UI
+        // Xóa giao diện
         $(".cell").text('').removeClass('x o').css({
           'background-color': '',
           'box-shadow': ''
         });
         
-        // Reset game state
+        // Đặt lại trạng thái trò chơi
         gameActive = true;
-        $("#status").text("Your turn! You are " + player);
+        $("#status").text("Lượt của bạn! Bạn chơi " + player);
         
-        // Computer goes first if player is O
+        // Máy tính đi trước nếu người chơi chọn O
         if (player === 'O') {
-          computerMove();
+          setTimeout(computerMove, 500);
         }
       }
     });
