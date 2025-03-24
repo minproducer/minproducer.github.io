@@ -258,8 +258,24 @@
   <script src='https://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
 
   <script>
-    // Basic functionality to show dialog and handle symbol selection
     $(function() {
+      // Game variables
+      var player, computer;
+      var gameActive = false;
+      var board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+      ];
+      
+      // Cell positions mapping
+      var cellToPosition = {
+        'c11': [0, 0], 'c12': [0, 1], 'c13': [0, 2],
+        'c21': [1, 0], 'c22': [1, 1], 'c23': [1, 2],
+        'c31': [2, 0], 'c32': [2, 1], 'c33': [2, 2]
+      };
+      
+      // Initialize the dialog
       $("#dialog-confirm").dialog({
         resizable: false,
         modal: true,
@@ -270,22 +286,236 @@
           $(".ui-dialog-titlebar-close").hide();
         }
       });
-
-      // Handle X or O choice click
+      
+      // Handle player symbol choice
       $("#choose-x, #choose-o").on("click", function() {
-        var playerSymbol = $(this).text();
-        $("#status").text("You are playing as " + playerSymbol);
+        player = $(this).text();
+        computer = player === 'X' ? 'O' : 'X';
+        $("#status").text("Your turn! You are " + player);
         $("#dialog-confirm").dialog("close");
-        // The rest of your game logic would go here
-      });
-
-      // For demo purposes - handle cell clicks
-      $(".cell").on("click", function() {
-        if (!$(this).text()) {
-          $(this).text("X").addClass("x");
-          // In a real game, you'd implement the computer's move here
+        gameActive = true;
+        
+        // If computer goes first (player chose O)
+        if (player === 'O') {
+          computerMove();
         }
       });
+      
+      // Cell click handler
+      $(".cell").on("click", function() {
+        if (!gameActive) return;
+        
+        var cellId = $(this).attr('id');
+        var position = cellToPosition[cellId];
+        var row = position[0];
+        var col = position[1];
+        
+        // Check if cell is empty
+        if (board[row][col] === '') {
+          // Make player move
+          makeMove($(this), row, col, player);
+          
+          // Check if game ended
+          if (!checkGameEnd()) {
+            // Computer's turn
+            setTimeout(computerMove, 500);
+          }
+        }
+      });
+      
+      // Make a move (update UI and board array)
+      function makeMove($cell, row, col, symbol) {
+        $cell.text(symbol).addClass(symbol.toLowerCase());
+        board[row][col] = symbol;
+      }
+      
+      // Computer makes a move
+      function computerMove() {
+        $("#status").text("Computer is thinking...");
+        
+        // Find empty cells
+        var emptyCells = [];
+        for (var i = 0; i < 3; i++) {
+          for (var j = 0; j < 3; j++) {
+            if (board[i][j] === '') {
+              emptyCells.push([i, j]);
+            }
+          }
+        }
+        
+        // Check if any moves left
+        if (emptyCells.length > 0) {
+          // Simple AI: Random move for now
+          // Could be enhanced with minimax algorithm for unbeatable AI
+          var randomIndex = Math.floor(Math.random() * emptyCells.length);
+          var move = emptyCells[randomIndex];
+          var row = move[0];
+          var col = move[1];
+          
+          // Convert [row, col] back to cell ID
+          var cellId;
+          for (var id in cellToPosition) {
+            if (cellToPosition[id][0] === row && cellToPosition[id][1] === col) {
+              cellId = id;
+              break;
+            }
+          }
+          
+          var $cell = $("#" + cellId);
+          makeMove($cell, row, col, computer);
+          
+          // Check if game ended after computer move
+          if (!checkGameEnd()) {
+            $("#status").text("Your turn! You are " + player);
+          }
+        }
+      }
+      
+      // Check for win, draw, or continue
+      function checkGameEnd() {
+        // Check rows, columns, and diagonals for win
+        if (checkWin()) {
+          return true;
+        }
+        
+        // Check for draw
+        if (checkDraw()) {
+          gameActive = false;
+          $("#status").text("Game ended in a draw!");
+          setTimeout(showRestartDialog, 1000);
+          return true;
+        }
+        
+        return false;
+      }
+      
+      // Check for win
+      function checkWin() {
+        // Define winning combinations
+        var winCombos = [
+          // Rows
+          [[0,0], [0,1], [0,2]],
+          [[1,0], [1,1], [1,2]],
+          [[2,0], [2,1], [2,2]],
+          // Columns
+          [[0,0], [1,0], [2,0]],
+          [[0,1], [1,1], [2,1]],
+          [[0,2], [1,2], [2,2]],
+          // Diagonals
+          [[0,0], [1,1], [2,2]],
+          [[0,2], [1,1], [2,0]]
+        ];
+        
+        // Check each winning combination
+        for (var i = 0; i < winCombos.length; i++) {
+          var combo = winCombos[i];
+          var a = combo[0];
+          var b = combo[1];
+          var c = combo[2];
+          
+          if (board[a[0]][a[1]] !== '' && 
+              board[a[0]][a[1]] === board[b[0]][b[1]] && 
+              board[a[0]][a[1]] === board[c[0]][c[1]]) {
+            
+            // Highlight winning cells
+            highlightWin(combo);
+            
+            // Determine winner
+            var winner = board[a[0]][a[1]];
+            gameActive = false;
+            
+            if (winner === player) {
+              $("#status").text("You won! 🎉");
+            } else {
+              $("#status").text("Computer won!");
+            }
+            
+            setTimeout(showRestartDialog, 1000);
+            return true;
+          }
+        }
+        
+        return false;
+      }
+      
+      // Highlight winning combination
+      function highlightWin(combo) {
+        combo.forEach(function(pos) {
+          var cellId;
+          for (var id in cellToPosition) {
+            if (cellToPosition[id][0] === pos[0] && cellToPosition[id][1] === pos[1]) {
+              cellId = id;
+              break;
+            }
+          }
+          $("#" + cellId).css({
+            'background-color': 'rgba(129, 140, 248, 0.4)',
+            'box-shadow': '0 0 15px rgba(129, 140, 248, 0.8)'
+          });
+        });
+      }
+      
+      // Check for draw
+      function checkDraw() {
+        for (var i = 0; i < 3; i++) {
+          for (var j = 0; j < 3; j++) {
+            if (board[i][j] === '') {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+      
+      // Show restart dialog
+      function showRestartDialog() {
+        // Create dialog dynamically
+        if ($("#restart-dialog").length === 0) {
+          $("body").append('<div id="restart-dialog" title="Game Over"><p>Do you want to play again?</p></div>');
+          
+          $("#restart-dialog").dialog({
+            resizable: false,
+            modal: true,
+            autoOpen: false,
+            buttons: {
+              "Play Again": function() {
+                restartGame();
+                $(this).dialog("close");
+              },
+              "Quit": function() {
+                $(this).dialog("close");
+              }
+            }
+          });
+        }
+        
+        $("#restart-dialog").dialog("open");
+      }
+      
+      // Restart the game
+      function restartGame() {
+        // Clear board array
+        board = [
+          ['', '', ''],
+          ['', '', ''],
+          ['', '', '']
+        ];
+        
+        // Clear UI
+        $(".cell").text('').removeClass('x o').css({
+          'background-color': '',
+          'box-shadow': ''
+        });
+        
+        // Reset game state
+        gameActive = true;
+        $("#status").text("Your turn! You are " + player);
+        
+        // Computer goes first if player is O
+        if (player === 'O') {
+          computerMove();
+        }
+      }
     });
   </script>
 </body>
