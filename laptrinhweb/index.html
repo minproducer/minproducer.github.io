@@ -1,56 +1,538 @@
 <!DOCTYPE html>
-<html >
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>JavaScript Tic Tac Toe </title>
-  
- 
-  
-  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-<link rel='stylesheet prefetch' href='https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css'>
- 
-      <link rel="stylesheet" href="style.css">
- 
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cờ Ca-rô | Tic Tac Toe</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #c084fc;
+      --background: #0f172a;
+      --cell-bg: #1e293b;
+      --cell-hover: #334155;
+      --text: #f8fafc;
+      --x-color: #f87171;
+      --o-color: #38bdf8;
+      --border-radius: 16px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background);
+      background-image: linear-gradient(135deg, var(--background) 0%, #020617 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+    }
+
+    .game-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      max-width: 600px;
+    }
+
+    .game-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+    }
+
+    .status-bar {
+      background-color: var(--cell-bg);
+      border-radius: var(--border-radius);
+      padding: 12px 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      font-weight: 600;
+      font-size: 1.2rem;
+      text-align: center;
+      min-width: 280px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    #main {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .container-fluid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .cell {
+      background-color: var(--cell-bg);
+      width: 120px;
+      height: 120px;
+      border-radius: var(--border-radius);
+      font-size: 60px;
+      color: white;
+      text-align: center;
+      line-height: 120px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cell:hover {
+      background-color: var(--cell-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* X and O styling */
+    .cell.x {
+      color: var(--x-color);
+      text-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
+    }
+
+    .cell.o {
+      color: var(--o-color);
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    /* Dialog styling */
+    .ui-dialog {
+      background-color: var(--cell-bg) !important;
+      border-radius: var(--border-radius) !important;
+      border: 2px solid rgba(255, 255, 255, 0.1) !important;
+      padding: 0 !important;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .ui-dialog-titlebar {
+      background: linear-gradient(90deg, var(--primary), var(--secondary)) !important;
+      color: white !important;
+      border-radius: calc(var(--border-radius) - 2px) calc(var(--border-radius) - 2px) 0 0 !important;
+      border: none !important;
+      padding: 15px 20px !important;
+      font-weight: bold !important;
+    }
+
+    .ui-dialog-content {
+      color: var(--text) !important;
+      padding: 20px !important;
+      font-size: 1.2rem !important;
+      text-align: center !important;
+    }
+
+    .ui-button {
+      background: var(--primary) !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 10px 20px !important;
+      margin: 5px !important;
+      font-weight: bold !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .ui-button:hover {
+      background: var(--secondary) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    /* Choose X or O buttons */
+    .choice-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+      justify-content: center;
+    }
+
+    .choice-btn {
+      background: var(--cell-bg);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      width: 80px;
+      height: 80px;
+      border-radius: 16px;
+      font-size: 40px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .choice-btn.x {
+      color: var(--x-color);
+    }
+
+    .choice-btn.o {
+      color: var(--o-color);
+    }
+
+    .choice-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Responsive design */
+    @media (max-width: 500px) {
+      .cell {
+        width: 90px;
+        height: 90px;
+        font-size: 45px;
+        line-height: 90px;
+      }
+      
+      .game-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 350px) {
+      .cell {
+        width: 70px;
+        height: 70px;
+        font-size: 35px;
+        line-height: 70px;
+      }
+    }
+  </style>
 </head>
- 
 <body>
-  <div id="main">
-<div class="container-fluid">
-<div class="row">
-  <div class="col-xs-4 cell" id="c11">
+  <div class="game-container">
+    <h1 class="game-title">Cờ Ca-rô</h1>
+    <div class="status-bar" id="status">Chọn X hoặc O để bắt đầu</div>
+    
+    <div id="main">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="cell" id="c11"></div>
+          <div class="cell" id="c12"></div>
+          <div class="cell" id="c13"></div>
+        </div>
+        <div class="row">
+          <div class="cell" id="c21"></div>
+          <div class="cell" id="c22"></div>
+          <div class="cell" id="c23"></div>
+        </div>
+        <div class="row">
+          <div class="cell" id="c31"></div>
+          <div class="cell" id="c32"></div>
+          <div class="cell" id="c33"></div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-xs-4 cell" id="c12">
+
+  <div id="dialog-confirm" title="Chọn Ký Hiệu">
+    <p>Bạn muốn chơi với ký hiệu nào?</p>
+    <div class="choice-buttons">
+      <button class="choice-btn x" id="choose-x">X</button>
+      <button class="choice-btn o" id="choose-o">O</button>
+    </div>
   </div>
-  <div class="col-xs-4 cell" id="c13">
-  </div>
-</div>
-  <div class="row">
-<div class="col-xs-4 cell" id="c21">
-</div>
-<div class="col-xs-4 cell" id="c22">
-</div>
-<div class="col-xs-4 cell" id="c23">
-</div>
-  </div>
-  <div class="row">
-<div class="col-xs-4 cell" id="c31">
-</div>
-<div class="col-xs-4 cell" id="c32">
-</div>
-<div class="col-xs-4 cell" id="c33">
-</div>
-  </div>
-</div>
-</div>
- 
-<div id="dialog-confirm" title="Tic Tac Toe | JavaScript">
-  <p>Choose X or O</p>
-</div>
+
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='https://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
- 
-    <script src="function.js"></script>
- 
+  <script src='https://code.jquery.com/ui/1.11.4/jquery-ui.js'></script>
+
+  <script>
+    $(document).ready(function() {
+      // Biến trò chơi
+      var player, computer;
+      var gameActive = false;
+      var board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+      ];
+      
+      // Ánh xạ vị trí
+      var cellToPosition = {
+        'c11': [0, 0], 'c12': [0, 1], 'c13': [0, 2],
+        'c21': [1, 0], 'c22': [1, 1], 'c23': [1, 2],
+        'c31': [2, 0], 'c32': [2, 1], 'c33': [2, 2]
+      };
+      
+      // Khởi tạo hộp thoại
+      $("#dialog-confirm").dialog({
+        resizable: false,
+        modal: true,
+        autoOpen: true,
+        width: 320,
+        closeOnEscape: false,
+        open: function(event, ui) {
+          $(".ui-dialog-titlebar-close").hide();
+        }
+      });
+      
+      // Xử lý khi người chơi chọn ký hiệu
+      $("#choose-x").on("click", function() {
+        player = 'X';
+        computer = 'O';
+        $("#status").text("Lượt của bạn! Bạn chơi " + player);
+        $("#dialog-confirm").dialog("close");
+        gameActive = true;
+      });
+      
+      $("#choose-o").on("click", function() {
+        player = 'O';
+        computer = 'X';
+        $("#status").text("Lượt của bạn! Bạn chơi " + player);
+        $("#dialog-confirm").dialog("close");
+        gameActive = true;
+        
+        // Máy tính đi trước nếu người chơi chọn O
+        setTimeout(computerMove, 500);
+      });
+      
+      // Xử lý khi người chơi nhấp vào ô
+      $(".cell").on("click", function() {
+        if (!gameActive) return;
+        
+        var cellId = $(this).attr('id');
+        var position = cellToPosition[cellId];
+        var row = position[0];
+        var col = position[1];
+        
+        // Kiểm tra nếu ô trống
+        if (board[row][col] === '') {
+          // Người chơi đi
+          makeMove($(this), row, col, player);
+          
+          // Kiểm tra kết thúc
+          if (!checkGameEnd()) {
+            // Đến lượt máy tính
+            setTimeout(computerMove, 500);
+          }
+        }
+      });
+      
+      // Thực hiện nước đi
+      function makeMove($cell, row, col, symbol) {
+        $cell.text(symbol);
+        $cell.addClass(symbol.toLowerCase());
+        board[row][col] = symbol;
+      }
+      
+      // Máy tính thực hiện nước đi
+      function computerMove() {
+        if (!gameActive) return;
+        
+        $("#status").text("Máy tính đang suy nghĩ...");
+        
+        // Tìm các ô trống
+        var emptyCells = [];
+        for (var i = 0; i < 3; i++) {
+          for (var j = 0; j < 3; j++) {
+            if (board[i][j] === '') {
+              emptyCells.push([i, j]);
+            }
+          }
+        }
+        
+        // Kiểm tra nếu còn nước đi
+        if (emptyCells.length > 0) {
+          // AI đơn giản: chọn ngẫu nhiên
+          var randomIndex = Math.floor(Math.random() * emptyCells.length);
+          var move = emptyCells[randomIndex];
+          var row = move[0];
+          var col = move[1];
+          
+          // Chuyển [row, col] thành ID ô
+          var cellId;
+          for (var id in cellToPosition) {
+            if (cellToPosition[id][0] === row && cellToPosition[id][1] === col) {
+              cellId = id;
+              break;
+            }
+          }
+          
+          var $cell = $("#" + cellId);
+          makeMove($cell, row, col, computer);
+          
+          // Kiểm tra kết thúc sau nước đi của máy tính
+          if (!checkGameEnd()) {
+            $("#status").text("Lượt của bạn! Bạn chơi " + player);
+          }
+        }
+      }
+      
+      // Kiểm tra thắng, hòa, hoặc tiếp tục
+      function checkGameEnd() {
+        // Kiểm tra thắng
+        if (checkWin()) {
+          return true;
+        }
+        
+        // Kiểm tra hòa
+        if (checkDraw()) {
+          gameActive = false;
+          $("#status").text("Trò chơi kết thúc với tỷ số hòa!");
+          setTimeout(showRestartDialog, 1000);
+          return true;
+        }
+        
+        return false;
+      }
+      
+      // Kiểm tra thắng
+      function checkWin() {
+        // Định nghĩa các tổ hợp thắng
+        var winCombos = [
+          // Hàng ngang
+          [[0,0], [0,1], [0,2]],
+          [[1,0], [1,1], [1,2]],
+          [[2,0], [2,1], [2,2]],
+          // Hàng dọc
+          [[0,0], [1,0], [2,0]],
+          [[0,1], [1,1], [2,1]],
+          [[0,2], [1,2], [2,2]],
+          // Đường chéo
+          [[0,0], [1,1], [2,2]],
+          [[0,2], [1,1], [2,0]]
+        ];
+        
+        // Kiểm tra từng tổ hợp
+        for (var i = 0; i < winCombos.length; i++) {
+          var combo = winCombos[i];
+          var a = combo[0];
+          var b = combo[1];
+          var c = combo[2];
+          
+          if (board[a[0]][a[1]] !== '' && 
+              board[a[0]][a[1]] === board[b[0]][b[1]] && 
+              board[a[0]][a[1]] === board[c[0]][c[1]]) {
+            
+            // Đánh dấu các ô thắng
+            highlightWin(combo);
+            
+            // Xác định người thắng
+            var winner = board[a[0]][a[1]];
+            gameActive = false;
+            
+            if (winner === player) {
+              $("#status").text("Bạn đã thắng! 🎉");
+            } else {
+              $("#status").text("Máy tính đã thắng!");
+            }
+            
+            setTimeout(showRestartDialog, 1000);
+            return true;
+          }
+        }
+        
+        return false;
+      }
+      
+      // Đánh dấu các ô thắng
+      function highlightWin(combo) {
+        for (var i = 0; i < combo.length; i++) {
+          var pos = combo[i];
+          var cellId;
+          for (var id in cellToPosition) {
+            if (cellToPosition[id][0] === pos[0] && cellToPosition[id][1] === pos[1]) {
+              cellId = id;
+              break;
+            }
+          }
+          $("#" + cellId).css({
+            'background-color': 'rgba(129, 140, 248, 0.4)',
+            'box-shadow': '0 0 15px rgba(129, 140, 248, 0.8)'
+          });
+        }
+      }
+      
+      // Kiểm tra hòa
+      function checkDraw() {
+        for (var i = 0; i < 3; i++) {
+          for (var j = 0; j < 3; j++) {
+            if (board[i][j] === '') {
+              return false;
+            }
+          }
+        }
+        return true;
+      }
+      
+      // Hiển thị hộp thoại khởi động lại
+      function showRestartDialog() {
+        // Tạo hộp thoại khởi động lại
+        if ($("#restart-dialog").length === 0) {
+          $("body").append('<div id="restart-dialog" title="Trò Chơi Kết Thúc"><p>Bạn có muốn chơi lại không?</p></div>');
+          
+          $("#restart-dialog").dialog({
+            resizable: false,
+            modal: true,
+            autoOpen: false,
+            width: 320,
+            buttons: [
+              {
+                text: "Chơi Lại",
+                click: function() {
+                  restartGame();
+                  $(this).dialog("close");
+                }
+              },
+              {
+                text: "Thoát",
+                click: function() {
+                  $(this).dialog("close");
+                }
+              }
+            ]
+          });
+        }
+        
+        $("#restart-dialog").dialog("open");
+      }
+      
+      // Khởi động lại trò chơi
+      function restartGame() {
+        // Xóa mảng bàn cờ
+        board = [
+          ['', '', ''],
+          ['', '', ''],
+          ['', '', '']
+        ];
+        
+        // Xóa giao diện
+        $(".cell").text('').removeClass('x o').css({
+          'background-color': '',
+          'box-shadow': ''
+        });
+        
+        // Đặt lại trạng thái trò chơi
+        gameActive = true;
+        $("#status").text("Lượt của bạn! Bạn chơi " + player);
+        
+        // Máy tính đi trước nếu người chơi chọn O
+        if (player === 'O') {
+          setTimeout(computerMove, 500);
+        }
+      }
+    });
+  </script>
 </body>
 </html>
