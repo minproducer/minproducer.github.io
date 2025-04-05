@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hiến Máu Nhân Đạo - Hãy Tham Gia Ngay!</title>
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Hiến Máu Nhân Đạo - Hãy Tham Gia Ngay!">
+    <meta property="og:description" content="Cùng chung tay cứu người bằng hành động hiến máu nhân đạo. Đăng ký ngay hôm nay!">
+    <meta property="og:image" content="9.4.25.png">
+    <meta property="og:url" content="/">
+    <meta property="og:type" content="website">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .poster {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: #fff;
+            background: #e63946;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: pulse 1.5s infinite;
+        }
+
+        .cta-button:hover {
+            background: #d00000;
+            transform: scale(1.1);
+        }
+
+        /* Animated Elements */
+        .blood-drop {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: #e63946;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: drip 4s infinite;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ff4040;
+            transform: rotate(-45deg);
+            animation: beat 1s infinite;
+            z-index: 0;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 30px;
+            height: 30px;
+            background: #ff4040;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before {
+            top: -15px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 15px;
+            top: 0;
+        }
+
+        /* Particle Effect */
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes drip {
+            0% { transform: translateY(-100vh); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1) rotate(-45deg); }
+            50% { transform: scale(1.2) rotate(-45deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .poster {
+                max-width: 90%;
+            }
+            .cta-button {
+                padding: 12px 30px;
+            }
+            .blood-drop, .heart {
+                width: 15px;
+                height: 20px;
+            }
+            .heart::before, .heart::after {
+                width: 15px;
+                height: 15px;
+            }
+            .heart::before { top: -7.5px; }
+            .heart::after { left: 7.5px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    <div class="container">
+        <h1>Hiến Máu Nhân Đạo</h1>
+        <p>Cùng chung tay cứu người bằng hành động nhỏ nhưng ý nghĩa lớn. Đăng ký ngay để tham gia chương trình hiến máu nhân đạo!</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScUv5LQDDh0fHD1HVTjy4m4jIy8U24nGHbkTI3HvHCPxdAIgA/viewform?usp=preview" class="cta-button" target="_blank">Đăng Ký Ngay</a>
+    </div>
+
+    <!-- Animated Elements -->
+    <div class="blood-drop" style="left: 20%; animation-delay: 0s;"></div>
+    <div class="blood-drop" style="left: 80%; animation-delay: 2s;"></div>
+    <div class="heart" style="left: 10%; top: 20%; animation-delay: 0.5s;"></div>
+    <div class="heart" style="right: 10%; bottom: 20%; animation-delay: 1s;"></div>
+
+    <script>
+        // Particle Effect
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.getElementById('particles').appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 5000);
+        }
+
+        setInterval(createParticle, 200);
+
+        // Button Click Animation
+        const ctaButton = document.querySelector('.cta-button');
+        ctaButton.addEventListener('click', () => {
+            ctaButton.style.animation = 'none';
+            setTimeout(() => {
+                ctaButton.style.animation = 'pulse 1.5s infinite';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
