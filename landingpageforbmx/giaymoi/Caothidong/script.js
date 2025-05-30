@@ -87,7 +87,7 @@ function openGoogleMaps() {
         window.location.href = `geo:0,0?q=${encodedAddress}`;
     } else if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
         // Try to open Maps app on iOS
-        window.location.href = `maps://maps.google.com/maps?q=${encodedAddress}`;
+        window.location.href = `maps://?q=${encodedAddress}`;
     } else {
         // Open Google Maps in browser
         window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
