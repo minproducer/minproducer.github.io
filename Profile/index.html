@@ -12,36 +12,70 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <header id="home">
-        <div class="header-bg"></div>
-        <div class="container">
-            <div class="header-content">
-                <div class="profile-image">
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <div class="mobile-header-content">
+            <div class="mobile-logo">
+                <i class="fas fa-code"></i>
+                <span>Minh Giang</span>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="profile-mini">
+                <div class="profile-image-mini">
                     <i class="fas fa-code"></i>
                 </div>
-                <h1>Minh Giang</h1>
-                <p class="subtitle">Mid-level Frontend Developer</p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>0773448750</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <span>minhhai113he@gmail.com</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Hội An, Quảng Nam</span>
-                    </div>
+                <div class="profile-info">
+                    <h3>Minh Giang - Min</h3>
+                    <p>Frontend Developer</p>
+                </div>
+            </div>
+            <button class="sidebar-close" id="sidebarClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-content">
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i><span>Trang chủ</span></a></li>
+                <li><a href="#about" class="nav-link"><i class="fas fa-user"></i><span>Giới thiệu</span></a></li>
+                <li><a href="#skills" class="nav-link"><i class="fas fa-code"></i><span>Kỹ năng</span></a></li>
+                <li><a href="#experience" class="nav-link"><i class="fas fa-briefcase"></i><span>Kinh nghiệm</span></a>
+                </li>
+                <li><a href="#projects" class="nav-link"><i class="fas fa-project-diagram"></i><span>Dự án</span></a>
+                </li>
+                <li><a href="#contact" class="nav-link"><i class="fas fa-envelope"></i><span>Liên hệ</span></a></li>
+            </ul>
+
+            <div class="sidebar-contact">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>0773448750</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>minhhai113he@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Hội An, Quảng Nam</span>
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Navigation -->
-    <nav id="navbar">
+    <!-- Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
         <div class="container">
             <div class="nav-content">
                 <a href="#home" class="nav-link active">Trang chủ</a>
@@ -54,338 +88,385 @@
         </div>
     </nav>
 
-    <!-- About Section -->
-    <!-- About Section -->
-    <section id="about">
-        <div class="container">
-            <h2 class="section-title">Giới Thiệu</h2>
-            <div class="about-content">
-                <div class="about-left">
-                    <div class="about-image">
-                        <img src="image.jpg" alt="Minh Giang - Frontend Developer" id="profile-photo">
-                        <div class="image-overlay">
-                            <i class="fas fa-camera"></i>
-                            <span>Click để thay đổi ảnh</span>
-                        </div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <!-- Header -->
+        <header id="home" class="hero-section">
+            <div class="hero-bg"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <div class="profile-image">
+                        <i class="fas fa-code"></i>
                     </div>
-                    <div class="about-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">4+</div>
-                            <div class="stat-label">Năm kinh nghiệm</div>
+                    <h1>Minh Giang aka Min</h1>
+                    <p class="subtitle">Mid-level Frontend Developer</p>
+                    <div class="hero-contact">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>0773448750</span>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">20+</div>
-                            <div class="stat-label">Dự án hoàn thành</div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>minhhai113he@gmail.com</span>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Khách hàng hài lòng</div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Hội An, Quảng Nam</span>
                         </div>
                     </div>
                 </div>
-                <div class="about-text">
-                    <h3>Mục Tiêu Nghề Nghiệp</h3>
-                    <p>Mid-level Frontend Developer với <strong>4+ năm kinh nghiệm</strong> chuyên sâu về <strong>Vue.js
-                            và
-                            React.js</strong>. Đã thành công triển khai hơn <strong>20 dự án</strong> sử dụng Vue.js
-                        (Vue 2/3), React.js, TypeScript và các công nghệ hiện đại như Vite, TailwindCSS.</p>
+            </div>
+            <div class="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+                <p>Cuộn xuống để xem thêm</p>
+            </div>
+        </header>
 
-                    <p>Có kinh nghiệm thực tế trong việc <strong>migration từ Vue 2 lên Vue 3</strong>, tối ưu hóa
-                        performance, và xây dựng component library tái sử dụng. Thành thạo unit testing với Vitest/Jest
-                        và có hiểu biết sâu về REST API integration.</p>
 
-                    <p>Mục tiêu phát triển thành <strong>Senior Frontend Developer</strong> trong 2 năm tới, đóng góp
-                        vào việc xây dựng kiến trúc frontend scalable và mentoring team members.</p>
-                    <div class="about-highlights">
-                        <div class="highlight-item">
-                            <i class="fas fa-code"></i>
-                            <div>
-                                <h4>Chuyên môn</h4>
-                                <p>Vue.js, React.js, TypeScript</p>
+        <!-- About Section -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">Giới Thiệu</h2>
+                <div class="about-content">
+                    <div class="about-left">
+                        <div class="about-image">
+                            <img src="image.jpg " alt="Minh Giang - Frontend Developer" id="profile-photo">
+                        </div>
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <div class="stat-number">4+</div>
+                                <div class="stat-label">Năm kinh nghiệm</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">20+</div>
+                                <div class="stat-label">Dự án hoàn thành</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Khách hàng hài lòng</div>
                             </div>
                         </div>
-                        <div class="highlight-item">
-                            <i class="fas fa-rocket"></i>
-                            <div>
-                                <h4>Tối ưu hóa</h4>
-                                <p>Performance & Bundle Size</p>
+                    </div>
+                    <div class="about-text">
+                        <h3>Mục Tiêu Nghề Nghiệp</h3>
+                        <p>Mid-level Frontend Developer với <strong>4+ năm kinh nghiệm</strong> chuyên sâu về
+                            <strong>Vue.js và React.js</strong>. Đã thành công triển khai hơn <strong>20 dự án</strong>
+                            sử dụng Vue.js (Vue 2/3), React.js, TypeScript và các công nghệ hiện đại như Vite,
+                            TailwindCSS.
+                        </p>
+
+                        <p>Có kinh nghiệm thực tế trong việc <strong>migration từ Vue 2 lên Vue 3</strong>, tối ưu hóa
+                            performance, và xây dựng component library tái sử dụng. Thành thạo unit testing với
+                            Vitest/Jest và có hiểu biết sâu về REST API integration.</p>
+
+                        <p>Mục tiêu phát triển thành <strong>Senior Frontend Developer</strong> trong 2 năm tới, đóng
+                            góp vào việc
+                            xây dựng kiến trúc frontend scalable và mentoring team members.</p>
+
+                        <div class="about-highlights">
+                            <div class="highlight-item">
+                                <i class="fas fa-code"></i>
+                                <div>
+                                    <h4>Chuyên môn</h4>
+                                    <p>Vue.js, React.js, TypeScript</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="highlight-item">
-                            <i class="fas fa-users"></i>
-                            <div>
-                                <h4>Làm việc nhóm</h4>
-                                <p>Agile, Code Review, Mentoring</p>
+                            <div class="highlight-item">
+                                <i class="fas fa-rocket"></i>
+                                <div>
+                                    <h4>Tối ưu hóa</h4>
+                                    <p>Performance & Bundle Size</p>
+                                </div>
+                            </div>
+                            <div class="highlight-item">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <h4>Làm việc nhóm</h4>
+                                    <p>Agile, Code Review, Mentoring</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-
-    <!-- Skills Section -->
-    <section id="skills" class="bg-secondary">
-        <div class="container">
-            <h2 class="section-title">Kỹ Năng Chuyên Môn</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3><i class="fab fa-vuejs"></i> Frontend Frameworks</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <span>Vue.js (2/3)</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="75"></div>
+        <!-- Skills Section -->
+        <section id="skills" class="bg-secondary">
+            <div class="container">
+                <h2 class="section-title">Kỹ Năng Chuyên Môn</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3><i class="fab fa-vuejs"></i> Frontend Frameworks</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <span>Vue.js (2/3)</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>React.js</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>TypeScript</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="88"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <span>React.js</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="95"></div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3><i class="fas fa-tools"></i> Build Tools & Testing</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <span>Vite</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="92"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>Vitest/Jest</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>Webpack</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="80"></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <span>TypeScript</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="88"></div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3><i class="fas fa-paint-brush"></i> Styling & UI</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <span>TailwindCSS</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="95"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>CSS3/SCSS</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>Bootstrap</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3><i class="fas fa-server"></i> Backend & Tools</h3>
+                        <div class="skill-list">
+                            <div class="skill-item">
+                                <span>REST APIs</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>Git/GitHub</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="88"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span>Node.js</span>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" data-width="75"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="skill-category">
-                    <h3><i class="fas fa-tools"></i> Build Tools & Testing</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <span>Vite</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="80"></div>
-                            </div>
+        <!-- Experience Section -->
+        <section id="experience">
+            <div class="container">
+                <h2 class="section-title">Kinh Nghiệm Làm Việc</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2023 - Hiện tại</div>
+                        <div class="timeline-content">
+                            <h3>Mid-level Frontend Developer - Freelance</h3>
+                            <div class="company">Freelance</div>
+                            <ul>
+                                <li>Phát triển và maintain các ứng dụng web sử dụng <strong>Vue.js 3</strong> và
+                                    <strong>React.js</strong> với TypeScript
+                                </li>
+                                <li>Implement <strong>unit testing</strong> với Vitest và Jest, đạt coverage >85%</li>
+                                <li>Tối ưu hóa performance ứng dụng, giảm bundle size 40% và cải thiện load time</li>
+                                <li>Tích hợp REST APIs và implement real-time messaging với WebSocket</li>
+                                <li>Migration codebase từ Vue 2 lên Vue 3 cho 3 dự án legacy</li>
+                                <li>Setup CI/CD pipeline với GitHub Actions cho automated testing và deployment</li>
+                            </ul>
                         </div>
-                        <div class="skill-item">
-                            <span>Vitest/Jest</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="75"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Webpack</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="70"></div>
-                            </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">2021 - 2023</div>
+                        <div class="timeline-content">
+                            <h3>Frontend Developer</h3>
+                            <div class="company">Timebird Media</div>
+                            <ul>
+                                <li>Phát triển responsive web applications với <strong>Vue.js</strong> và
+                                    <strong>React.js</strong>
+                                </li>
+                                <li>Collaborate với backend team để integrate APIs và optimize data flow</li>
+                                <li>Implement cross-browser compatibility và responsive design principles</li>
+                                <li>Participate trong code review process và follow coding best practices</li>
+                                <li>Sử dụng modern build tools như <strong>Vite</strong> và Webpack cho development
+                                    workflow</li>
+                                <li>Work closely với designers để deliver pixel-perfect UI/UX</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="skill-category">
-                    <h3><i class="fas fa-paint-brush"></i> Styling & UI</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <span>TailwindCSS</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="95"></div>
-                            </div>
+        <!-- Projects Section -->
+        <section id="projects" class="bg-secondary">
+            <div class="container">
+                <h2 class="section-title">Dự Án Nổi Bật</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-user-circle"></i>
                         </div>
-                        <div class="skill-item">
-                            <span>CSS3/SCSS</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="90"></div>
+                        <div class="project-content">
+                            <h3>Personal Portfolio Website</h3>
+                            <p>Trang web portfolio cá nhân được xây dựng với React.js, TypeScript và TailwindCSS.
+                                Responsive design và performance optimization.</p>
+                            <div class="project-tech">
+                                <span>React.js</span>
+                                <span>TypeScript</span>
+                                <span>TailwindCSS</span>
+                                <span>Vite</span>
                             </div>
-                        </div>
-                        <div class="skill-item">
-                            <span>Bootstrap</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="85"></div>
+                            <div class="project-links">
+                                <a href="https://minproducer.github.io/personalprofile/" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="skill-category">
-                    <h3><i class="fas fa-server"></i> Backend & Tools</h3>
-                    <div class="skill-list">
-                        <div class="skill-item">
-                            <span>REST APIs</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="90"></div>
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3>CloudSpace Landing Page</h3>
+                            <p>Landing page cho dịch vụ cloud computing với animations mượt mà và modern UI. Tối ưu hóa
+                                cho conversion rate.</p>
+                            <div class="project-tech">
+                                <span>React.js</span>
+                                <span>TypeScript</span>
+                                <span>TailwindCSS</span>
+                                <span>Framer Motion</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://minproducer.github.io/cloudspacelandingpage" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Live Demo
+                                </a>
                             </div>
                         </div>
-                        <div class="skill-item">
-                            <span>Git/GitHub</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="95"></div>
-                            </div>
+                    </div>
+
+                    <div class="project-card">
+                        <div class="project-image">
+                            <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <div class="skill-item">
-                            <span>Node.js</span>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-width="85"></div>
+                        <div class="project-content">
+                            <h3>E-commerce Dashboard</h3>
+                            <p>Dashboard quản lý cho hệ thống e-commerce với Vue.js 3, Composition API và real-time data
+                                updates.</p>
+                            <div class="project-tech">
+                                <span>Vue.js 3</span>
+                                <span>TypeScript</span>
+                                <span>Pinia</span>
+                                <span>Chart.js</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Private Project
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Experience Section -->
-    <section id="experience">
-        <div class="container">
-            <h2 class="section-title">Kinh Nghiệm Làm Việc</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">2023 - Hiện tại</div>
-                    <div class="timeline-content">
-                        <h3>mid-level Frontend Developer - Freelance</h3>
-                        <div class="company">Freelance</div>
-                        <ul>
-                            <li>Phát triển và maintain các ứng dụng web sử dụng <strong>Vue.js 3</strong> và
-                                <strong>React.js</strong> với TypeScript
-                            </li>
-                            <li>Implement <strong>unit testing</strong> với Vitest và Jest, đạt coverage >85%</li>
-                            <li>Tối ưu hóa performance ứng dụng, giảm bundle size 40% và cải thiện load time</li>
-                            <li>Tích hợp REST APIs và implement real-time messaging với WebSocket</li>
-                            <li>Migration codebase từ Vue 2 lên Vue 3 cho 3 dự án legacy</li>
-                            <li>Setup CI/CD pipeline với GitHub Actions cho automated testing và deployment</li>
-                        </ul>
-                    </div>
-                </div>
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Liên Hệ</h2>
+                <div class="contact-content">
+                    <div class="contact-info-grid">
+                        <div class="contact-card">
+                            <i class="fas fa-phone"></i>
+                            <h3>Điện thoại</h3>
+                            <p>0773448750</p>
+                        </div>
+                        <div class="contact-card">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Email</h3>
+                            <p>minhhai113he@gmail.com</p>
+                        </div>
+                        <div class="contact-card" style="transition: transform 0.3s ease;">
+                            <i class="fab fa-facebook"
+                                style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px;"></i>
+                            <h3 style="font-size: 1.2rem; margin-bottom: 10px; color: var(--text-primary);">Facebook
+                            </h3>
+                            <p style="margin: 0;">
+                                <a href="https://www.facebook.com/minproducer.fb" target="_blank" style="color: var(--primary-color); 
+                  text-decoration: none; 
+                  font-weight: 500; 
+                  transition: color 0.3s ease, transform 0.3s ease;
+                  display: inline-block;"
+                                    onmouseover="this.style.color='var(--secondary-color)'; this.style.transform='translateY(-2px)'"
+                                    onmouseout="this.style.color='var(--primary-color)'; this.style.transform='translateY(0)'">
+                                    minproducer.fb
+                                </a>
+                            </p>
+                        </div>
 
-                <div class="timeline-item">
-                    <div class="timeline-date">2021 - 2023</div>
-                    <div class="timeline-content">
-                        <h3>Frontend Developer</h3>
-                        <div class="company">Timebird Media</div>
-                        <ul>
-                            <li>Phát triển responsive web applications với <strong>Vue.js</strong> và
-                                <strong>React.js</strong>
-                            </li>
-                            <li>Collaborate với backend team để integrate APIs và optimize data flow</li>
-                            <li>Implement cross-browser compatibility và responsive design principles</li>
-                            <li>Participate trong code review process và follow coding best practices</li>
-                            <li>Sử dụng modern build tools như <strong>Vite</strong> và Webpack cho development workflow
-                            </li>
-                            <li>Work closely với designers để deliver pixel-perfect UI/UX</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="bg-secondary">
-        <div class="container">
-            <h2 class="section-title">Dự Án Nổi Bật</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>Personal Portfolio Website</h3>
-                        <p>Trang web portfolio cá nhân được xây dựng với React.js, TypeScript và TailwindCSS. Responsive
-                            design và performance optimization.</p>
-                        <div class="project-tech">
-                            <span>React.js</span>
-                            <span>TypeScript</span>
-                            <span>TailwindCSS</span>
-                            <span>Vite</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://minproducer.github.io/personalprofile/" target="_blank">
-                                <i class="fas fa-external-link-alt"></i> Live Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>CloudSpace Landing Page</h3>
-                        <p>Landing page cho dịch vụ cloud computing với animations mượt mà và modern UI. Tối ưu hóa cho
-                            conversion rate.</p>
-                        <div class="project-tech">
-                            <span>React.js</span>
-                            <span>TypeScript</span>
-                            <span>TailwindCSS</span>
-                            <span>Framer Motion</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://minproducer.github.io/cloudspacelandingpage" target="_blank">
-                                <i class="fas fa-external-link-alt"></i> Live Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>E-commerce Dashboard</h3>
-                        <p>Dashboard quản lý cho hệ thống e-commerce với Vue.js 3, Composition API và real-time data
-                            updates.</p>
-                        <div class="project-tech">
-                            <span>Vue.js 3</span>
-                            <span>TypeScript</span>
-                            <span>Pinia</span>
-                            <span>Chart.js</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" target="_blank">
-                                <i class="fas fa-external-link-alt"></i> Private Project
-                            </a>
+                        <div class="contact-card">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <h3>Địa chỉ</h3>
+                            <p>Hội An, Quảng Nam</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title">Liên Hệ</h2>
-            <div class="contact-content">
-                <div class="contact-info-grid">
-                    <div class="contact-card">
-                        <i class="fas fa-phone"></i>
-                        <h3>Điện thoại</h3>
-                        <p>0773448750</p>
-                    </div>
-                    <div class="contact-card">
-                        <i class="fas fa-envelope"></i>
-                        <h3>Email</h3>
-                        <p>minhhai113he@gmail.com</p>
-                    </div>
-                    <div class="contact-card">
-                        <i class="fab fa-facebook"></i>
-                        <h3>Facebook</h3>
-                        <p>min.producer.fb</p>
-                    </div>
-                    <div class="contact-card">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <h3>Địa chỉ</h3>
-                        <p>Hội An, Quảng Nam</p>
-                    </div>
-                </div>
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 Minh Giang aka Min. Thiết kế với <i class="fas fa-heart"></i> bằng HTML5, CSS3 và
+                    JavaScript.</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Minh Giang aka Min. Thiết kế với <i class="fas fa-heart"></i> bằng HTML5, CSS3 và JavaScript.
-            </p>
-        </div>
-    </footer>
+        </footer>
+    </main>
 
     <script src="script.js"></script>
 </body>

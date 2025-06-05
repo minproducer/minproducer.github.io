@@ -1,3 +1,48 @@
+// Mobile menu functionality
+const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+const sidebar = document.getElementById('sidebar');
+const sidebarClose = document.getElementById('sidebarClose');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function openSidebar() {
+    sidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSidebar() {
+    sidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+mobileMenuToggle.addEventListener('click', openSidebar);
+sidebarClose.addEventListener('click', closeSidebar);
+sidebarOverlay.addEventListener('click', closeSidebar);
+
+// Close sidebar when clicking on nav links
+document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', closeSidebar);
+});
+
+// Show/Hide Header on Scroll
+function handleHeaderVisibility() {
+    const heroSection = document.querySelector('.hero-section');
+    const desktopNav = document.querySelector('.desktop-nav');
+    const mobileHeader = document.querySelector('.mobile-header');
+    const heroHeight = heroSection.offsetHeight;
+    const scrollPosition = window.pageYOffset;
+
+    // Show header when scrolled past hero section
+    if (scrollPosition > heroHeight - 100) {
+        desktopNav.classList.add('show');
+        mobileHeader.classList.add('show');
+    } else {
+        desktopNav.classList.remove('show');
+        mobileHeader.classList.remove('show');
+    }
+}
+
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -71,8 +116,6 @@ function animateSkillBars() {
 
     skillBars.forEach(bar => {
         const width = bar.getAttribute('data-width');
-        bar.style.setProperty('--target-width', width + '%');
-
         setTimeout(() => {
             bar.style.width = width + '%';
         }, 200);
@@ -82,25 +125,11 @@ function animateSkillBars() {
 // Parallax effect for header background
 function updateParallax() {
     const scrolled = window.pageYOffset;
-    const headerBg = document.querySelector('.header-bg');
+    const headerBg = document.querySelector('.hero-bg');
 
     if (headerBg) {
         const speed = scrolled * 0.5;
         headerBg.style.transform = `translateY(${speed}px)`;
-    }
-}
-
-// Navbar background opacity on scroll
-function updateNavbarOpacity() {
-    const navbar = document.querySelector('nav');
-    const scrolled = window.pageYOffset;
-
-    if (scrolled > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.backdropFilter = 'blur(15px)';
-    } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.backdropFilter = 'blur(10px)';
     }
 }
 
@@ -170,32 +199,6 @@ if (aboutSection) {
     statsObserver.observe(aboutSection);
 }
 
-// Add floating animation to project cards
-function addFloatingAnimation() {
-    const projectCards = document.querySelectorAll('.project-card');
-
-    projectCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.2}s`;
-        card.classList.add('float-animation');
-    });
-}
-
-// CSS for floating animation (add to head dynamically)
-const floatingCSS = `
-    @keyframes float-card {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-    
-    .float-animation {
-        animation: float-card 3s ease-in-out infinite;
-    }
-`;
-
-const style = document.createElement('style');
-style.textContent = floatingCSS;
-document.head.appendChild(style);
-
 // Mouse parallax effect for cards
 function addMouseParallax() {
     const cards = document.querySelectorAll('.project-card, .skill-category, .contact-card');
@@ -223,15 +226,7 @@ function addMouseParallax() {
 
 // Initialize all animations and effects
 window.addEventListener('load', () => {
-    addFloatingAnimation();
     addMouseParallax();
-});
-
-// Event listeners
-window.addEventListener('scroll', () => {
-    updateActiveNavLink();
-    updateParallax();
-    updateNavbarOpacity();
 });
 
 // Smooth reveal animation for timeline items
@@ -258,56 +253,6 @@ document.querySelectorAll('.timeline-item').forEach((item, index) => {
     timelineObserver.observe(item);
 });
 
-// Add click effect to buttons and links
-document.querySelectorAll('.nav-link, .project-links a').forEach(element => {
-    element.addEventListener('click', function (e) {
-        const ripple = document.createElement('span');
-        const rect = this.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.classList.add('ripple');
-
-        this.appendChild(ripple);
-
-        setTimeout(() => {
-            ripple.remove();
-        }, 600);
-    });
-});
-
-// CSS for ripple effect
-const rippleCSS = `
-    .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(0);
-        animation: ripple-animation 0.6s linear;
-        pointer-events: none;
-    }
-    
-    @keyframes ripple-animation {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-    
-    .nav-link, .project-links a {
-        position: relative;
-        overflow: hidden;
-    }
-`;
-
-const rippleStyle = document.createElement('style');
-rippleStyle.textContent = rippleCSS;
-document.head.appendChild(rippleStyle);
-
 // Performance optimization: Throttle scroll events
 function throttle(func, limit) {
     let inThrottle;
@@ -323,116 +268,15 @@ function throttle(func, limit) {
 }
 
 // Apply throttling to scroll events
-window.removeEventListener('scroll', () => {
-    updateActiveNavLink();
-    updateParallax();
-    updateNavbarOpacity();
-});
-
 window.addEventListener('scroll', throttle(() => {
+    handleHeaderVisibility();
     updateActiveNavLink();
     updateParallax();
-    updateNavbarOpacity();
 }, 16)); // ~60fps
-function initImageUpload() {
-    const profilePhoto = document.getElementById('profile-photo');
-    const aboutImage = document.querySelector('.about-image');
 
-    if (aboutImage && profilePhoto) {
-        // Create hidden file input
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-        fileInput.style.display = 'none';
-        document.body.appendChild(fileInput);
-
-        // Add click event to image container
-        aboutImage.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        // Handle file selection
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    profilePhoto.src = e.target.result;
-                    profilePhoto.alt = "Ảnh cá nhân - " + file.name;
-
-                    // Save to localStorage for persistence
-                    localStorage.setItem('profileImage', e.target.result);
-
-                    // Add success animation
-                    aboutImage.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        aboutImage.style.transform = 'scale(1)';
-                    }, 200);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Load saved image from localStorage
-        const savedImage = localStorage.getItem('profileImage');
-        if (savedImage) {
-            profilePhoto.src = savedImage;
-        }
+// Handle window resize
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        closeSidebar();
     }
-}
-
-// Image lazy loading with intersection observer
-function initImageLazyLoading() {
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.classList.add('loaded');
-                    imageObserver.unobserve(img);
-                }
-            }
-        });
-    });
-
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
-
-// Enhanced about section animations
-function initAboutAnimations() {
-    const highlightItems = document.querySelectorAll('.highlight-item');
-
-    highlightItems.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.transform = 'translateX(-30px)';
-        item.style.transition = 'all 0.6s ease';
-        item.style.transitionDelay = `${index * 0.1}s`;
-    });
-
-    const aboutObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const highlights = entry.target.querySelectorAll('.highlight-item');
-                highlights.forEach(item => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateX(0)';
-                });
-            }
-        });
-    }, { threshold: 0.3 });
-
-    const aboutSection = document.querySelector('#about');
-    if (aboutSection) {
-        aboutObserver.observe(aboutSection);
-    }
-}
-
-// Initialize all new functions
-window.addEventListener('load', () => {
-    initImageUpload();
-    initImageLazyLoading();
-    initAboutAnimations();
 });
