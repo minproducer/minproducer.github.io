@@ -334,3 +334,105 @@ window.addEventListener('scroll', throttle(() => {
     updateParallax();
     updateNavbarOpacity();
 }, 16)); // ~60fps
+function initImageUpload() {
+    const profilePhoto = document.getElementById('profile-photo');
+    const aboutImage = document.querySelector('.about-image');
+
+    if (aboutImage && profilePhoto) {
+        // Create hidden file input
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        document.body.appendChild(fileInput);
+
+        // Add click event to image container
+        aboutImage.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    profilePhoto.src = e.target.result;
+                    profilePhoto.alt = "Ảnh cá nhân - " + file.name;
+
+                    // Save to localStorage for persistence
+                    localStorage.setItem('profileImage', e.target.result);
+
+                    // Add success animation
+                    aboutImage.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        aboutImage.style.transform = 'scale(1)';
+                    }, 200);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Load saved image from localStorage
+        const savedImage = localStorage.getItem('profileImage');
+        if (savedImage) {
+            profilePhoto.src = savedImage;
+        }
+    }
+}
+
+// Image lazy loading with intersection observer
+function initImageLazyLoading() {
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                    imageObserver.unobserve(img);
+                }
+            }
+        });
+    });
+
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+// Enhanced about section animations
+function initAboutAnimations() {
+    const highlightItems = document.querySelectorAll('.highlight-item');
+
+    highlightItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-30px)';
+        item.style.transition = 'all 0.6s ease';
+        item.style.transitionDelay = `${index * 0.1}s`;
+    });
+
+    const aboutObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const highlights = entry.target.querySelectorAll('.highlight-item');
+                highlights.forEach(item => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const aboutSection = document.querySelector('#about');
+    if (aboutSection) {
+        aboutObserver.observe(aboutSection);
+    }
+}
+
+// Initialize all new functions
+window.addEventListener('load', () => {
+    initImageUpload();
+    initImageLazyLoading();
+    initAboutAnimations();
+});
